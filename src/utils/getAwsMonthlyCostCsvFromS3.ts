@@ -24,7 +24,7 @@ export async function getAwsMonthlyCostCsvFromS3(year: string, month: string) {
     const bucket = process.env.AWS_COST_REPORT_BUCKET;
     if (!bucket) throw new Error("AWS_COST_REPORT_BUCKET is not defined in environment variables");
 
-    const key = `monthly-costs/${year}-${month}.csv.gz`;    // keyは各々の構成に置き換えること
+    const key = `monthly-costs/${year}-${month}.csv.gz`;
 
     const response = await s3.send(
         new GetObjectCommand({
