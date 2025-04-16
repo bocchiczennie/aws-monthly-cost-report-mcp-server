@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# Secrets
+.env
+
+# Dependencies
+node_modules/
+
+# Build artifacts
+build/
