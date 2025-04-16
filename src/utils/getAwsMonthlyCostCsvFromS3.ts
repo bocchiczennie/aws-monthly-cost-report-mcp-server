@@ -5,8 +5,6 @@ import { fromIni } from "@aws-sdk/credential-providers";
 import { gunzipSync } from "zlib";
 import { parse } from "csv-parse/sync";
 
-const bucket = process.env.AWS_COST_REPORT_BUCKET;
-
 const s3 = new S3Client({
     region: process.env.AWS_REGION,
     credentials: fromIni({ profile: process.env.AWS_PROFILE || "default" }),
@@ -23,10 +21,17 @@ function streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
 }
 
 export async function getAwsMonthlyCostCsvFromS3(year: string, month: string) {
+    const bucket = process.env.AWS_COST_REPORT_BUCKET;
+    if (!bucket) throw new Error("AWS_COST_REPORT_BUCKET is not defined in environment variables");
+
     const key = `monthly-costs/${year}-${month}.csv.gz`;    // keyは各々の構成に置き換えること
 
-    const response = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
-    console.log("response:", response);
+    const response = await s3.send(
+        new GetObjectCommand({
+            Bucket: bucket,
+            Key: key
+        }),
+    );
     if (!response.Body) {
         throw new Error("S3 response body is undefined");
     }

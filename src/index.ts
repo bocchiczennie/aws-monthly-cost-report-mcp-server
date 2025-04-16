@@ -2,6 +2,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { getAwsMonthlyCostCsvFromS3 } from "./utils/getAwsMonthlyCostCsvFromS3.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Create server instance
 const server = new McpServer({
