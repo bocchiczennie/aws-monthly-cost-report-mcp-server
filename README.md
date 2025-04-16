@@ -8,26 +8,15 @@
 - Node.js バージョン 16 以上
 - AWS CLI 2.23.3 （動作確認済み）
 
-### 環境変数について
-- `.env.sample` をベースに `.env` ファイルを作成する
-```dotenv
-# S3バケットが存在するリージョンを指定
-AWS_REGION=ap-northeast-3
-# AWS CLI ベースで操作するため、プロファイル設定をしている場合はプロファイル名を指定（デフォルトの場合は default）
-AWS_PROFILE=default
-# S3が存在するリージョンのエンドポイントを指定（東京の場合は https://s3.ap-northeast-1.amazonaws.com）
-AWS_S3_ENDPOINT=https://s3.ap-northeast-3.amazonaws.com
-# S3のバケット名を指定
-AWS_COST_REPORT_BUCKET=your-backet-name
-```
-
-## npm インストール & ビルド
+### npm インストール & ビルド
 ```bash
     npm install
     npm run build
 ```
 
 ### claude_desktop_config.json
+- `env` には環境変数を指定する
+- 設定を変更したら、Claude Desktop を再起動する
 ```json
 {
     "mcpServers": {
@@ -35,6 +24,16 @@ AWS_COST_REPORT_BUCKET=your-backet-name
             "command": "node",
             "args": [
                 "/path/to/aws-monthly-cost-report-mcp-server/build/index.js"
+            ],
+            "env": {
+                "AWS_REGION": "ap-northeast-3",
+                "AWS_PROFILE": "default",
+                "AWS_S3_ENDPOINT": "https://s3.ap-northeast-3.amazonaws.com",
+                "AWS_COST_REPORT_BUCKET": "your-backet-name"
+            },
+            "disabled": false,
+            "autoApprove": [
+                "get_env"
             ]
         }
     }
